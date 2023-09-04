@@ -9,11 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,9 +24,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+
 @Entity
-@Table(name = "Student")
-public class StudentEntity {
+@Table(name="Subject")
+public class SubjectEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,13 +35,9 @@ public class StudentEntity {
 
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name ="Laptop_Id",nullable=false)
-    private LaptopEntity laptopEntity;
-
-    @OneToMany(mappedBy = "studentEntity",targetEntity = BookEntity.class)
-    List<BookEntity> bookEntities;
-    
-    @ManyToMany(mappedBy = "studentEntities",targetEntity = SubjectEntity.class)
-    List<SubjectEntity> subjectEntities= new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "subject_student",
+    joinColumns = {@JoinColumn(name = "subject_id")},
+    inverseJoinColumns = {@JoinColumn(name = "student_id")})
+    private List<StudentEntity> studentEntities= new ArrayList<>();
 }
