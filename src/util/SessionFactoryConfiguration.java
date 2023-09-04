@@ -4,13 +4,18 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import entity.LaptopEntity;
+import entity.StudentEntity;
+
 public class SessionFactoryConfiguration {
     // singleton;
     private static SessionFactoryConfiguration sessionFactoryConfiguration;
     private SessionFactory sessionFactory;
 
     private SessionFactoryConfiguration() {
-        Configuration configuration = new Configuration().configure();
+        Configuration configuration = new Configuration().configure()
+        .addAnnotatedClass(LaptopEntity.class)
+        .addAnnotatedClass(StudentEntity.class);
         // see the entity package there is a class named "StudentEntity"
         sessionFactory = configuration.buildSessionFactory();
     }
